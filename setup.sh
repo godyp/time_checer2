@@ -22,8 +22,8 @@ fi
 # docker composeのインストール
 if ! type docker-compose >/dev/null 2>&1; then
     echo "[install docker-compose]"
-    sudo curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-    sudo chmod +x /usr/local/bin/docker-compose
+    sudo curl -L https://github.com/docker/compose/releases/download/1.25.4/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+    chmod +x /usr/local/bin/docker-compose
 fi
 
 # gitのインストール
@@ -34,7 +34,7 @@ if ! type docker >/dev/null 2>&1; then
 fi
 
 # gitからクローン
-if [ ! -e '~/time_checker2' ]; then
+if [ ! -e '../time_checker2' ]; then
     echo "[clone time_checker2]"
     git clone https://github.com/godyp/time_checker2.git
     cd ~/time_checker2
