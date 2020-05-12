@@ -3,5 +3,5 @@
 ## set up
 ```
 $ chmod 755 setup.sh
-$ ./setup.sh
+$ sudo ./setup.sh
 ```

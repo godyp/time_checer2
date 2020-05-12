@@ -4,23 +4,40 @@ services:
     build:
       context: ./docker/nginx
       dockerfile: dockerfile
-    image: time_checker2_test_nginx
     container_name: nginx-container
     stdin_open: true
     volumes:
       - ./docker/nginx/html:/usr/share/nginx/html
-    networks:
-      app_net:
-        ipv4_address: 172.30.0.2
     ports:
       - 3000:80
-
-
-
-networks:
-  app_net:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.30.0.0/24
+  react:
+    build:
+      context: ./docker/react
+      dockerfile: dockerfile
+    container_name: react-container
+    stdin_open: true
+    volumes:
+     - ./docker/react:/usr/src/app
+    command: sh -c "cd react-app && yarn start"
+    ports:
+     - "3100:3000"
+  db:
+    image: mysql:5.7
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: root
+    ports:
+      - "3306:3306"
+  rails:
+    build:
+      context: ./docker/rails-api
+      dockerfile: dockerfile
+    container_name: rails-container
+    command: rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - ./docker/rails-api:/api
+    ports:
+      - "3200:3000"
+    depends_on:
+      - db
